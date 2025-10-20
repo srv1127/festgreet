@@ -137,6 +137,24 @@ const Index = () => {
         {/* Footer */}
         <footer className="mt-12 text-center text-sm text-muted-foreground">
           <p>Create, customize, and share beautiful greeting cards for any occasion ✨</p>
+          <p>Made with love by curiousweber</p>
+             <a
+        href="https://instagram.com/your_instagram_id" // replace with your Instagram ID
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center justify-center gap-2 hover:text-pink-500 transition-colors"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          className="w-6 h-6"
+        >
+          <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5z" />
+          <path d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" />
+          <circle cx="17.5" cy="6.5" r="0.9" />
+        </svg>
+      </a>
         </footer>
       </div>
     </div>
