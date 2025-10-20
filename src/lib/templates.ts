@@ -11,6 +11,7 @@ export interface Template {
   textColor: string;
   accentColor: string;
   defaultMessage: string;
+  quote: string;
   decorations: Decoration[];
   fontFamily: string;
 }
@@ -31,6 +32,7 @@ export const templates: Template[] = [
     textColor: '#FFFFFF',
     accentColor: '#FFD700',
     defaultMessage: 'Happy Diwali',
+    quote: 'May the festival of lights illuminate your life with endless joy, prosperity, and happiness',
     fontFamily: 'Playfair Display',
     decorations: [
       { type: 'emoji', content: '🪔', position: { x: 10, y: 10 }, size: 60 },
@@ -47,6 +49,7 @@ export const templates: Template[] = [
     textColor: '#FFFFFF',
     accentColor: '#FFD700',
     defaultMessage: 'Happy Birthday',
+    quote: 'Age is merely the number of years the world has been enjoying you. Keep shining!',
     fontFamily: 'Playfair Display',
     decorations: [
       { type: 'emoji', content: '🎂', position: { x: 12, y: 12 }, size: 60 },
@@ -63,6 +66,7 @@ export const templates: Template[] = [
     textColor: '#FFFFFF',
     accentColor: '#FFD700',
     defaultMessage: 'Merry Christmas',
+    quote: 'Christmas is not a time nor a season, but a state of mind. Peace, joy and goodwill',
     fontFamily: 'Playfair Display',
     decorations: [
       { type: 'emoji', content: '🎄', position: { x: 10, y: 12 }, size: 65 },
@@ -79,6 +83,7 @@ export const templates: Template[] = [
     textColor: '#FFFFFF',
     accentColor: '#FFD700',
     defaultMessage: 'Eid Mubarak',
+    quote: 'May Allah bless you with peace, happiness, and success on this blessed occasion',
     fontFamily: 'Playfair Display',
     decorations: [
       { type: 'emoji', content: '🌙', position: { x: 12, y: 10 }, size: 60 },

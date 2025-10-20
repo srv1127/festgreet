@@ -62,7 +62,7 @@ export const CardCanvas = ({ template, name, message, onCanvasReady }: CardCanva
         ctx.fillText(decoration.content, x, y);
       });
 
-      // Draw message in center
+      // Draw message at top
       ctx.fillStyle = template.textColor;
       ctx.font = `bold 120px ${template.fontFamily}, serif`;
       ctx.textAlign = 'center';
@@ -71,14 +71,41 @@ export const CardCanvas = ({ template, name, message, onCanvasReady }: CardCanva
       ctx.shadowBlur = 25;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 4;
-      ctx.fillText(message || template.defaultMessage, 600, 700);
+      ctx.fillText(message || template.defaultMessage, 600, 400);
+
+      // Draw quote in the middle with word wrapping
+      ctx.font = `italic 45px ${template.fontFamily}, serif`;
+      ctx.fillStyle = template.textColor;
+      ctx.shadowBlur = 20;
+      
+      // Word wrap for quote
+      const maxWidth = 1000;
+      const lineHeight = 60;
+      const words = template.quote.split(' ');
+      let line = '';
+      let y = 850;
+      
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        
+        if (testWidth > maxWidth && n > 0) {
+          ctx.fillText(line, 600, y);
+          line = words[n] + ' ';
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, 600, y);
 
       // Draw sender name at bottom
       if (name) {
-        ctx.font = `600 70px ${template.fontFamily}, serif`;
+        ctx.font = `600 65px ${template.fontFamily}, serif`;
         ctx.fillStyle = template.accentColor;
         ctx.shadowBlur = 20;
-        ctx.fillText(`From: ${name}`, 600, 1400);
+        ctx.fillText(`~ ${name}`, 600, 1450);
       }
 
       ctx.shadowBlur = 0;
