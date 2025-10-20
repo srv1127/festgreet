@@ -1,8 +1,13 @@
+import diwaliImage from '@/assets/diwali-bg.jpg';
+import birthdayImage from '@/assets/birthday-bg.jpg';
+import christmasImage from '@/assets/christmas-bg.jpg';
+import eidImage from '@/assets/eid-bg.jpg';
+
 export interface Template {
   id: string;
   name: string;
   occasion: string;
-  background: string;
+  backgroundImage: string;
   textColor: string;
   accentColor: string;
   defaultMessage: string;
@@ -22,7 +27,7 @@ export const templates: Template[] = [
     id: 'diwali',
     name: 'Diwali Celebration',
     occasion: 'Diwali',
-    background: 'linear-gradient(135deg, #FF6B35 0%, #FF8E53 50%, #FFA500 100%)',
+    backgroundImage: diwaliImage,
     textColor: '#FFFFFF',
     accentColor: '#FFD700',
     defaultMessage: 'Happy Diwali',
@@ -38,7 +43,7 @@ export const templates: Template[] = [
     id: 'birthday',
     name: 'Birthday Celebration',
     occasion: 'Birthday',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+    backgroundImage: birthdayImage,
     textColor: '#FFFFFF',
     accentColor: '#FFD700',
     defaultMessage: 'Happy Birthday',
@@ -54,7 +59,7 @@ export const templates: Template[] = [
     id: 'christmas',
     name: 'Christmas Joy',
     occasion: 'Christmas',
-    background: 'linear-gradient(135deg, #C33764 0%, #1D2671 50%, #00416A 100%)',
+    backgroundImage: christmasImage,
     textColor: '#FFFFFF',
     accentColor: '#FFD700',
     defaultMessage: 'Merry Christmas',
@@ -70,7 +75,7 @@ export const templates: Template[] = [
     id: 'eid',
     name: 'Eid Mubarak',
     occasion: 'Eid',
-    background: 'linear-gradient(135deg, #4A00E0 0%, #8E2DE2 50%, #DA22FF 100%)',
+    backgroundImage: eidImage,
     textColor: '#FFFFFF',
     accentColor: '#FFD700',
     defaultMessage: 'Eid Mubarak',

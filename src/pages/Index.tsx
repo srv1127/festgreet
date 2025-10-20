@@ -2,7 +2,6 @@ import { useState, useRef, useCallback } from 'react';
 import { templates } from '@/lib/templates';
 import { CardCanvas } from '@/components/CardCanvas';
 import { TemplateSelector } from '@/components/TemplateSelector';
-import { PhotoUpload } from '@/components/PhotoUpload';
 import { TextEditor } from '@/components/TextEditor';
 import { ShareButtons } from '@/components/ShareButtons';
 import { toast } from 'sonner';
@@ -10,9 +9,7 @@ import { Sparkles } from 'lucide-react';
 
 const Index = () => {
   const [selectedTemplate, setSelectedTemplate] = useState(templates[0]);
-  const [photo, setPhoto] = useState<string | null>(null);
   const [name, setName] = useState('');
-  const [message, setMessage] = useState('');
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const handleCanvasReady = useCallback((canvas: HTMLCanvasElement) => {
@@ -99,7 +96,7 @@ const Index = () => {
             <Sparkles className="w-8 h-8 text-accent animate-pulse" />
           </div>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Create beautiful greeting cards for every celebration. Upload your photo, customize, and share instantly!
+            Create beautiful AI-powered greeting cards for every celebration. Choose a template, add your name, and share instantly!
           </p>
         </header>
 
@@ -113,14 +110,9 @@ const Index = () => {
               onSelectTemplate={setSelectedTemplate}
             />
             
-            <PhotoUpload photo={photo} onPhotoChange={setPhoto} />
-            
             <TextEditor
               name={name}
-              message={message}
               onNameChange={setName}
-              onMessageChange={setMessage}
-              defaultMessage={selectedTemplate.defaultMessage}
             />
           </div>
 
@@ -132,8 +124,7 @@ const Index = () => {
                 <CardCanvas
                   template={selectedTemplate}
                   name={name}
-                  message={message}
-                  photo={photo}
+                  message={selectedTemplate.defaultMessage}
                   onCanvasReady={handleCanvasReady}
                 />
               </div>

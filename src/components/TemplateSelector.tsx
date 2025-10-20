@@ -28,10 +28,11 @@ export const TemplateSelector = ({
             onClick={() => onSelectTemplate(template)}
           >
             <div
-              className="h-32 flex items-center justify-center relative"
-              style={{ background: template.background }}
+              className="h-32 flex items-center justify-center relative bg-cover bg-center"
+              style={{ backgroundImage: `url(${template.backgroundImage})` }}
             >
-              <div className="text-center">
+              <div className="absolute inset-0 bg-black/30" />
+              <div className="text-center relative z-10">
                 <p className="text-2xl font-display font-bold text-white drop-shadow-lg">
                   {template.occasion}
                 </p>
@@ -40,7 +41,7 @@ export const TemplateSelector = ({
                 )}
               </div>
               {selectedTemplate.id === template.id && (
-                <div className="absolute top-2 right-2 bg-primary rounded-full p-1">
+                <div className="absolute top-2 right-2 bg-primary rounded-full p-1 z-10">
                   <Check className="w-4 h-4 text-primary-foreground" />
                 </div>
               )}

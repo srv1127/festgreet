@@ -5,11 +5,10 @@ interface CardCanvasProps {
   template: Template;
   name: string;
   message: string;
-  photo: string | null;
   onCanvasReady?: (canvas: HTMLCanvasElement) => void;
 }
 
-export const CardCanvas = ({ template, name, message, photo, onCanvasReady }: CardCanvasProps) => {
+export const CardCanvas = ({ template, name, message, onCanvasReady }: CardCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -31,67 +30,27 @@ export const CardCanvas = ({ template, name, message, photo, onCanvasReady }: Ca
       // Clear canvas
       ctx.clearRect(0, 0, 1200, 1600);
 
-      // Draw gradient background
-      const gradient = ctx.createLinearGradient(0, 0, 1200, 1600);
-      const colors = template.background.match(/hsl\([^)]+\)|#[a-fA-F0-9]{6}/g) || ['#667eea', '#764ba2'];
-      
-      if (colors.length >= 2) {
-        gradient.addColorStop(0, colors[0]);
-        gradient.addColorStop(0.5, colors[1]);
-        if (colors[2]) gradient.addColorStop(1, colors[2]);
-      }
-      
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 1200, 1600);
+      // Draw AI-generated background image
+      try {
+        const bgImage = new Image();
+        bgImage.crossOrigin = 'anonymous';
+        await new Promise((resolve, reject) => {
+          bgImage.onload = resolve;
+          bgImage.onerror = reject;
+          bgImage.src = template.backgroundImage;
+        });
 
-      // Draw photo if provided
-      if (photo) {
-        try {
-          const img = new Image();
-          img.crossOrigin = 'anonymous';
-          await new Promise((resolve, reject) => {
-            img.onload = resolve;
-            img.onerror = reject;
-            img.src = photo;
-          });
+        // Draw background image to cover entire canvas
+        ctx.drawImage(bgImage, 0, 0, 1200, 1600);
 
-          // Draw circular photo
-          const photoSize = 400;
-          const photoX = 600;
-          const photoY = 450;
-
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(photoX, photoY, photoSize / 2, 0, Math.PI * 2);
-          ctx.closePath();
-          ctx.clip();
-
-          const aspectRatio = img.width / img.height;
-          let drawWidth = photoSize;
-          let drawHeight = photoSize;
-          let drawX = photoX - photoSize / 2;
-          let drawY = photoY - photoSize / 2;
-
-          if (aspectRatio > 1) {
-            drawHeight = photoSize / aspectRatio;
-            drawY = photoY - drawHeight / 2;
-          } else {
-            drawWidth = photoSize * aspectRatio;
-            drawX = photoX - drawWidth / 2;
-          }
-
-          ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
-          ctx.restore();
-
-          // Add photo border
-          ctx.beginPath();
-          ctx.arc(photoX, photoY, photoSize / 2 + 8, 0, Math.PI * 2);
-          ctx.strokeStyle = template.accentColor;
-          ctx.lineWidth = 12;
-          ctx.stroke();
-        } catch (error) {
-          console.error('Error loading photo:', error);
-        }
+        // Add semi-transparent overlay for better text readability
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.fillRect(0, 0, 1200, 1600);
+      } catch (error) {
+        console.error('Error loading background image:', error);
+        // Fallback to solid color
+        ctx.fillStyle = '#667eea';
+        ctx.fillRect(0, 0, 1200, 1600);
       }
 
       // Draw decorations
@@ -103,31 +62,26 @@ export const CardCanvas = ({ template, name, message, photo, onCanvasReady }: Ca
         ctx.fillText(decoration.content, x, y);
       });
 
-      // Draw message
+      // Draw message in center
       ctx.fillStyle = template.textColor;
       ctx.font = `bold 120px ${template.fontFamily}, serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-      ctx.shadowBlur = 20;
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+      ctx.shadowBlur = 25;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 4;
-      ctx.fillText(message || template.defaultMessage, 600, photo ? 900 : 600);
+      ctx.fillText(message || template.defaultMessage, 600, 700);
 
-      // Draw name if provided
+      // Draw sender name at bottom
       if (name) {
-        ctx.font = `600 80px ${template.fontFamily}, serif`;
+        ctx.font = `600 70px ${template.fontFamily}, serif`;
         ctx.fillStyle = template.accentColor;
-        ctx.fillText(name, 600, photo ? 1050 : 750);
+        ctx.shadowBlur = 20;
+        ctx.fillText(`From: ${name}`, 600, 1400);
       }
 
-      // Draw occasion tag
       ctx.shadowBlur = 0;
-      ctx.font = '40px Poppins, sans-serif';
-      ctx.fillStyle = template.textColor;
-      ctx.globalAlpha = 0.8;
-      ctx.fillText(template.occasion.toUpperCase(), 600, 1450);
-      ctx.globalAlpha = 1;
 
       if (onCanvasReady) {
         onCanvasReady(canvas);
@@ -135,7 +89,7 @@ export const CardCanvas = ({ template, name, message, photo, onCanvasReady }: Ca
     };
 
     renderCard();
-  }, [template, name, message, photo, onCanvasReady]);
+  }, [template, name, message, onCanvasReady]);
 
   return (
     <canvas
